@@ -39,7 +39,7 @@ test('locator syntax rules', async ({page}) => {
 
 });
 
-test.only('user facing locators', async ({page}) => {
+test('user facing locators', async ({page}) => {
 
     //It's good to always start with the role
     //It's the usual user thought process
@@ -59,4 +59,24 @@ test.only('user facing locators', async ({page}) => {
 
     //This id is a PlayWright reserved id defined in the source code itself
     await page.getByTestId('sing-in').first().click();
+});
+
+test.only('locating child elements', async ({page}) => {
+    await page.locator('nb-card nb-radio :text-is("Option 1")').click();
+    await page
+        .locator('nb-card')
+        .locator('nb-radio')
+        .locator(':text-is("Option 2")').click();
+
+    await page
+        .locator('nb-card')
+        .getByRole('button', {name: 'Sign In'})
+        .first().click();
+
+    //Least preferable
+    await page
+        .locator('nb-card')
+        .nth(3)
+        .getByRole('button')
+        .click();
 });
