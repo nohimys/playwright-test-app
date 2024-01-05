@@ -58,7 +58,7 @@ test('user facing locators', async ({page}) => {
     await page.getByTitle('IoT Dashboard').first().click();
 
     //This id is a PlayWright reserved id defined in the source code itself
-    await page.getByTestId('sing-in').first().click();
+    await page.getByTestId('sign-in').first().click();
 });
 
 test.only('locating child elements', async ({page}) => {
