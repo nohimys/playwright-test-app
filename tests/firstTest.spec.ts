@@ -61,8 +61,10 @@ test('user facing locators', async ({page}) => {
     await page.getByTestId('sign-in').first().click();
 });
 
-test.only('locating child elements', async ({page}) => {
+test('locating child elements', async ({page}) => {
+    //You can keep spaces for going into each child
     await page.locator('nb-card nb-radio :text-is("Option 1")').click();
+    //You can use chaining also for going into each child
     await page
         .locator('nb-card')
         .locator('nb-radio')
@@ -73,10 +75,42 @@ test.only('locating child elements', async ({page}) => {
         .getByRole('button', {name: 'Sign In'})
         .first().click();
 
-    //Least preferable
+    //Least preferable - nth function (Here index always starts with zero)
     await page
         .locator('nb-card')
         .nth(3)
         .getByRole('button')
         .click();
+});
+
+test.only('locating parent elements', async ({page}) => {
+    //This will provide the element having text somewhere in the DOM within the mentioned selector
+    await page
+        .locator('nb-card',{hasText: 'Using the grid'})
+        .getByRole('textbox', {name: 'Email'}).first().click();
+
+    //As the 2nd parameter we can add an another locator using 'has' as well
+    await page
+        .locator('nb-card', {has: page.locator('#inputEmail1')})
+        .getByRole('textbox', {name: 'Email'}).first().click();
+
+    //Filter method also can be used for similar capabilities as the 2nd argument of the locator method
+    await page
+        .locator('nb-card').filter({hasText: 'Basic Form'})
+        .getByRole('textbox', {name: 'Email'}).first().click();
+    await page
+        .locator('nb-card').filter({has: page.locator('.status-danger')})
+        .getByRole('textbox', {name: 'Password'}).first().click();
+
+    //Using multiple filters to track down an element
+    await page
+        .locator('nb-card')
+        .filter({has: page.locator('nb-checkbox')})
+        .filter({hasText: 'Sign in'})
+        .getByRole('textbox', {name: 'Email'}).first().click();
+
+    //Going one level up to the parent
+    await page
+        .locator(':text-is("Using the Grid")').locator('..')
+        .getByRole('textbox', {name: 'Email'}).first().click();
 });
