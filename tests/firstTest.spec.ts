@@ -83,7 +83,7 @@ test('locating child elements', async ({page}) => {
         .click();
 });
 
-test.only('locating parent elements', async ({page}) => {
+test('locating parent elements', async ({page}) => {
     //This will provide the element having text somewhere in the DOM within the mentioned selector
     await page
         .locator('nb-card',{hasText: 'Using the grid'})
