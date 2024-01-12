@@ -20,3 +20,19 @@ test('auto waiting', async ({page}) => {
     await expect(successParagraph)
         .toHaveText('Data loaded with AJAX get request.', {timeout: 20000});
 });
+
+test('alternative waits', async ({page}) => {
+    const successParagraph = page.locator('.bg-success');
+
+    //___ Wait for element
+    // await page.waitForSelector('.bg-success');
+
+    //___ Wait for the response
+    // await page.waitForResponse('http://uitestingplayground.com/ajaxdata');
+
+    //___ Wait for all the network API calls to be completed - NOT RECOMMENDED
+    await page.waitForLoadState('networkidle');
+
+    const allTextContents = await successParagraph.allTextContents();
+    expect(allTextContents).toContain('Data loaded with AJAX get request.');
+});
