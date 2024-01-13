@@ -50,5 +50,31 @@ test.describe('Form Layout Page', () => {
         await expect(radioButton1).toBeChecked({checked: false});
 
     });
+});
 
+test.describe('Toastr Page', () => {
+    test.beforeEach(async ({page}) => {
+        await page.getByText('Modal & Overlays').click();
+        await page.getByText('Toastr').click();
+    });
+
+    test('checkboxes', async ({page}) => {
+        const toasterconfiguration =
+            page.locator('nb-card', {hasText: 'Toaster configuration'});
+
+        await toasterconfiguration
+            .getByRole('checkbox', {name: 'Hide on click'})
+            .uncheck({force: true});
+
+        await toasterconfiguration
+            .getByRole('checkbox', {name: 'Show toast with icon'})
+            .uncheck({force: true});
+
+        //Check or uncheck all checkboxes
+        const allCheckBoxes = toasterconfiguration.getByRole('checkbox');
+        for (const checkBox of await allCheckBoxes.all()) {
+            await checkBox.check({force: true});
+            await expect(checkBox).toBeChecked();
+        }
+    });
 });
