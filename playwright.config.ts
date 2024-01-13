@@ -11,6 +11,10 @@ import { defineConfig, devices } from '@playwright/test';
  */
 export default defineConfig({
   // timeout: 10000,
+  // globalTimeout: 60000,
+  // expect: {
+  //   timeout: 20000
+  // },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -29,6 +33,8 @@ export default defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    // actionTimeout: 10000,
+    // navigationTimeout: 10000,
   },
 
   /* Configure projects for major browsers */

@@ -1,8 +1,10 @@
 import {expect, test} from '@playwright/test'
 
-test.beforeEach(async ({page}) => {
+test.beforeEach(async ({page}, testInfo) => {
     await page.goto('http://uitestingplayground.com/ajax');
     await page.getByText('Button Triggering AJAX Request').click();
+
+    testInfo.setTimeout(testInfo.timeout + 2000);
 });
 
 test('auto waiting', async ({page}) => {
@@ -35,4 +37,15 @@ test('alternative waits', async ({page}) => {
 
     const allTextContents = await successParagraph.allTextContents();
     expect(allTextContents).toContain('Data loaded with AJAX get request.');
+});
+
+test('timeouts', async ({page}) => {
+    // Completely override the default Test Timout
+    // test.setTimeout(20000);
+    //Increase the timeout of this test by 3 times the default Test Timeout
+    test.slow();
+
+    const successParagraph = page.locator('.bg-success');
+
+    await successParagraph.click({timeout: 16000});
 });
