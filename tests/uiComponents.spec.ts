@@ -78,3 +78,38 @@ test.describe('Toastr Page', () => {
         }
     });
 });
+
+test('lists & dropdowns', async ({page}) => {
+    const dropDownMenu = page.locator('ngx-header nb-select');
+    await dropDownMenu.click();
+
+    // page.getByRole('list'); //When the list has a UL tag
+    // page.getByRole('listitem'); // When the list has a LI tag
+
+    //There are multiple approaches to fetch the list
+    // const optionList = page.getByRole('list').locator('nb-option');
+    const optionList = page.locator('nb-option-list nb-option');
+
+    await expect(optionList).toHaveText(['Light', 'Dark', 'Cosmic', 'Corporate']);
+
+    await optionList.filter({hasText: 'Cosmic'}).click();
+
+    const header = page.locator('nb-layout-header');
+    await expect(header).toHaveCSS('background-color','rgb(50,50,89)');
+
+    const colors = {
+        'Light': 'rgb(255, 255, 255)',
+        'Dark': 'rgb(34, 43, 69)',
+        'Cosmic': 'rgb(50, 50, 89)',
+        'Corporate': 'rgb(50,50,89)'
+    }
+
+    for (const colorsKey in colors) {
+        await optionList.filter({hasText: colorsKey}).click();
+        await expect(header).toHaveCSS('background-color',colors[colorsKey]);
+        if(colorsKey != 'Corporate'){
+            await dropDownMenu.click();
+        }
+    }
+
+});
