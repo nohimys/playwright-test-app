@@ -133,3 +133,29 @@ test.describe('Tooltip Page', () => {
 
     });
 });
+
+test.describe('Table Page', () => {
+    test.beforeEach(async ({page}) => {
+        await page.getByText('Tables & Data').click();
+        await page.getByText('Smart Table').click();
+    });
+
+    test('dialog boxes', async ({page}) => {
+
+        //This is required when dealing with Browser level Dialog Boxes (Not within Web App)
+        page.on('dialog', dialog => {
+            expect(dialog.message()).toEqual('Are you sure you want to delete?');
+            dialog.accept();
+        });
+
+        await page
+            .getByRole('table')
+            .locator('tr', {hasText: 'mdo@gmail.com'})
+            .locator('.nb-trash')
+            .click()
+
+        const firstRowOfTable = page.locator('table tr').first();
+
+        await expect(firstRowOfTable).not.toHaveText('mdo@gmail.com');
+    });
+});
