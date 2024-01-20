@@ -113,3 +113,23 @@ test('lists & dropdowns', async ({page}) => {
     }
 
 });
+
+test.describe('Tooltip Page', () => {
+    test.beforeEach(async ({page}) => {
+        await page.getByText('Modal & Overlays').click();
+        await page.getByText('Tooltip').click();
+    });
+
+    test('tooltips', async ({page}) => {
+        const toolTipCard = page.locator('nb-card', {hasText: 'Tooltip Placements'});
+        await toolTipCard.getByRole('button', {name: 'TOP'}).hover();
+
+        //It will only work if you have a role tooltip created in the web element.
+        //But in ours it wasn't there, so we'll have to use a regular locator.
+        // page.getByRole('tooltip');
+
+        const toolTipTextContent = await page.locator('nb-tooltip').textContent();
+        expect(toolTipTextContent).toEqual('This is a tooltip');
+
+    });
+});
