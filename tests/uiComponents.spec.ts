@@ -193,4 +193,35 @@ test.describe('Table Page', () => {
             //Verify
             await expect(targetRowById.locator('td').nth(5)).toHaveText('test@test.com');
         });
+
+    test('test filter of the table', async ({page}) => {
+        const agesTestData = [
+            {value: '20', isDataFound: true},
+            {value: '30', isDataFound: true},
+            {value: '40', isDataFound: true},
+            {value: '200', isDataFound: false}
+        ];
+
+        for (const age of agesTestData) {
+            //Type the age in the filter textbox
+            await page.locator('input-filter').getByPlaceholder('Age').clear();
+            await page.locator('input-filter').getByPlaceholder('Age').fill(age.value);
+
+            //As it takes sometime for the animation.
+            page.waitForTimeout(500);
+
+            const ageRows = page.locator('tbody tr');
+
+            for (const row of await ageRows.all()) {
+                const cellValue = await row.locator('td').last().textContent()
+
+                if(age.isDataFound){
+                    expect(cellValue).toEqual(age);
+                }
+                else {
+                    expect(await page.getByRole('table').textContent()).toContain('No data found');
+                }
+            }
+        }
+    });
 });
