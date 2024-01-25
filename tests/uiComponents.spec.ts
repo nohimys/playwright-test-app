@@ -232,7 +232,16 @@ test.describe('Date Pickers Page', () => {
         await page.getByText('Datepicker').click();
     });
 
-    test('', async ({page}) => {
+    test('select date', async ({page}) => {
+        const calendarInputField = page.getByPlaceholder('Form Picker');
 
+        await calendarInputField.click();
+
+        //Using class name only to select numbers that are not faded
+        const allOfThisMonthDates =
+            page.locator('[class="day-cell ng-star-inserted"]');
+
+        await allOfThisMonthDates.getByText('15', {exact: true}).click();
+        await expect(calendarInputField).toHaveValue('January 15, 2024');
     });
 });
