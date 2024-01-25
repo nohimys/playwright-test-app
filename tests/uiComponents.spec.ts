@@ -159,3 +159,38 @@ test.describe('Table Page', () => {
         await expect(firstRowOfTable).not.toHaveText('mdo@gmail.com');
     });
 });
+
+test('web tables - get the row by any text in the row', async ({page}) => {
+    //Get the row by any text in the row
+    const targetRow = page.getByRole('row', {name: 'twitter@outlook.com'});
+
+    //Activate editing
+    await targetRow.locator('.nb-edit').click();
+    //Write new age
+    await page.locator('input-editor').getByPlaceholder('Age').clear();
+    await page.locator('input-editor').getByPlaceholder('Age').fill('36');
+    //Confirm the row
+    await page.locator('.nb-checkmark').click();
+});
+
+test('web tables - get the row based on a specific value in a column',
+    async ({page}) => {
+        //Click on the 2nd page
+        await page.locator('.ng2-smart-pagination-nav').getByText('2').click();
+
+
+        //Get the row based on a specific value in a column
+        const targetRowById = page
+            .getByRole('row', {name: '11'})
+            .filter({has: page.locator('td').nth(1).getByText('11')});
+
+        //Activate editing
+        await targetRowById.locator('.nb-edit').click();
+        //Write new age
+        await page.locator('input-editor').getByPlaceholder('E-mail').clear();
+        await page.locator('input-editor').getByPlaceholder('E-mail').fill('test@test.com');
+        //Confirm the row
+        await page.locator('.nb-checkmark').click();
+        //Verify
+        await expect(targetRowById.locator('td').nth(5)).toHaveText('test@test.com');
+    });
