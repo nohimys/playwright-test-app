@@ -225,3 +225,14 @@ test.describe('Table Page', () => {
         }
     });
 });
+
+test.describe('Date Pickers Page', () => {
+    test.beforeEach(async ({page}) => {
+        await page.getByText('Forms').click();
+        await page.getByText('Datepicker').click();
+    });
+
+    test('', async ({page}) => {
+
+    });
+});
