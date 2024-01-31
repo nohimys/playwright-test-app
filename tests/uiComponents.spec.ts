@@ -241,7 +241,27 @@ test.describe('Date Pickers Page', () => {
         const allOfThisMonthDates =
             page.locator('[class="day-cell ng-star-inserted"]');
 
-        await allOfThisMonthDates.getByText('15', {exact: true}).click();
-        await expect(calendarInputField).toHaveValue('January 15, 2024');
+        const date = new Date();
+        date.setDate(date.getDate() + 400);
+        const expectedDate = date.getDate().toString();
+        const expectedMonthShort =
+            date.toLocaleString('En-US', {month: 'short'});
+        const expectedMonthLong =
+            date.toLocaleString('En-US', {month: 'long'});
+        const expectedYear = date.getFullYear();
+
+        //Check whether the correct month is selected
+        let calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent();
+        const expectedMonthAndYear = ` ${expectedMonthLong} ${expectedYear} `
+
+        //Keep clicking Next Month until it matches
+        while (!calendarMonthAndYear.includes(expectedMonthAndYear)){
+            await page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click();
+            calendarMonthAndYear = await page.locator('nb-calendar-view-mode').textContent();
+        }
+
+        await allOfThisMonthDates.getByText(expectedDate, {exact: true}).click();
+        await expect(calendarInputField)
+            .toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`);
     });
 });
