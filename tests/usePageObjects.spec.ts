@@ -5,7 +5,11 @@ test.beforeEach(async ({page}) => {
     await page.goto('http://localhost:4200');
 });
 
-test('navigate to form page', async ({page}) => {
+test('navigate to pages', async ({page}) => {
     const navigationPage = new NavigationPage(page);
     await navigationPage.formLayoutsPage();
+    await navigationPage.datepickerPage();
+    await navigationPage.smartTablePage();
+    await navigationPage.tooltipPage();
+    await navigationPage.toastrPage();
 });
