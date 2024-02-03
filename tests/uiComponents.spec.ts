@@ -265,3 +265,38 @@ test.describe('Date Pickers Page', () => {
             .toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`);
     });
 });
+
+test.describe('sliders', () => {
+    test('sliders - update by attribute', async ({page}) => {
+        //Approach 1: Update the attribute
+        const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle');
+        await tempGauge.evaluate(node => {
+            node.setAttribute('cx','232.630');
+            node.setAttribute('cy','232.630');
+        });
+        //To run the changed event of the element, execute any trigger on tha
+        await tempGauge.click();
+    });
+
+    test('sliders - update by mouse movement', async ({page}) => {
+        //Approach 1 - Mouse Movement
+        const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger');
+        //Make sure the circle is visible in the screen.
+        await tempBox.scrollIntoViewIfNeeded();
+
+        const boundingBox = await tempBox.boundingBox()
+        //find the center as it's easier fot manipulate from there
+        const x = boundingBox.x + boundingBox.width / 2;
+        const y = boundingBox.y + boundingBox.height / 2;
+
+        //Movement
+        await page.mouse.move(x,y);
+        await page.mouse.down()
+        await page.mouse.move(x + boundingBox.width / 2, y);
+        await page.mouse.move(x + boundingBox.width / 2, y + boundingBox.height / 2);
+        await page.mouse.up();
+
+        await expect(tempBox).toContainText('30');
+
+    });
+});
