@@ -1,6 +1,7 @@
 import {test} from "@playwright/test";
 import {NavigationPage} from "../page-objects/navigationPage";
 import {FormLayoutsPage} from "../page-objects/formLayoutsPage";
+import {DatePickerPage} from "../page-objects/datePickerPage";
 
 test.beforeEach(async ({page}) => {
     await page.goto('http://localhost:4200');
@@ -30,4 +31,13 @@ test('parameterised methods', async ({page}) => {
         'test@test.com',
         true
     );
+});
+
+test('datepicker page object', async ({page}) => {
+    const datePickerPage = new DatePickerPage(page);
+    const navigationPage = new NavigationPage(page);
+
+    await navigationPage.datepickerPage();
+    await datePickerPage.selectCommonDatePickerDateFromToday(5);
+    await datePickerPage.selectDatepickerWithRangeFromToday(5, 8);
 });
