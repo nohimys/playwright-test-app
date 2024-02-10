@@ -87,3 +87,45 @@ test('delete article', async ({ page, request }) => {
     await expect(page.locator('app-article-list h1').first()).not.toContainText(title);
 
 });
+
+test('create article', async ({page, request}) => {
+    const title = 'My Title'
+
+    await page.getByText('New Article').click();
+    await page.getByRole('textbox', {name: 'Article Title'}).fill(title);
+    await page.getByRole('textbox', {name: "What's this article about?"}).fill('This is about Universe');
+    await page.getByRole('textbox', {name: 'Write your article (in markdown)'}).fill('Universe is wonderful.');
+    await page.getByRole('button', {name: 'Publish Article'}).click();
+
+    const createResponse = await page.waitForResponse('https://conduit-api.bondaracademy.com/api/articles/');
+    const articleslug = (await createResponse.json()).article.slug;
+
+    await expect(page.locator('.article-page h1')).toContainText(title);
+    await page.getByText('Home').click();
+    await page.getByText('Global Feed').click();
+    await expect(page.locator('app-article-list h1').first()).toContainText(title);
+
+    //Get the Auth Token
+    const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
+        data: {
+            'user': {
+                'email': USERNAME,
+                'password': PASSWORD
+            }
+        }
+    });
+    const responseBody = await response.json();
+    const token = responseBody.user.token;
+
+    //Clean up by API (Delete Article)
+    const deleteResponse = await request.delete(
+        `https://conduit-api.bondaracademy.com/api/articles/${articleslug}`,{
+            headers: {
+                Authorization: `Token ${token}`
+            }
+        });
+    expect(deleteResponse.status()).toEqual(204);
+    
+    await page.getByText('Global Feed').click();
+    await expect(page.locator('app-article-list h1').first()).not.toContainText(title);
+});
