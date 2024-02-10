@@ -13,6 +13,11 @@ test.beforeEach(async ({ page }) => {
             });
         });
 
+    await page.goto('https://conduit.bondaracademy.com');
+});
+
+test('title verification', async ({ page }) => {
+
     await page.route(
         '*/**/api/articles*',
         async (route, req) => {
@@ -26,10 +31,8 @@ test.beforeEach(async ({ page }) => {
             });
         });
 
-    await page.goto('https://conduit.bondaracademy.com');
-});
+    await page.getByText('Global Feed').click();
 
-test('title verification', async ({ page }) => {
     await expect(page.locator('.navbar-brand')).toHaveText('conduit');
     await expect(page.locator('app-article-list h1').first()).toContainText('Edited Tittle');
     await expect(page.locator('app-article-list p').first()).toContainText('Edited Description');
