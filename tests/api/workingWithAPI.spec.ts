@@ -6,9 +6,9 @@ test.beforeEach(async ({page}) => {
     //Intercept Routes from Browser to Server
     await page.route(
         '*/**/api/tags',
-        (route, request) => {
+        async (route, request) => {
 
-            route.fulfill({
+            await route.fulfill({
                 body: JSON.stringify(tags)
             });
         });
