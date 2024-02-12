@@ -17,11 +17,6 @@ test.beforeEach(async ({ page }) => {
     //     });
 
     await page.goto('https://conduit.bondaracademy.com');
-
-    // await page.locator('app-layout-header a', {hasText: 'Sign in'}).click();
-    // await page.getByPlaceholder('Email').fill(USERNAME);
-    // await page.getByPlaceholder('Password').fill(PASSWORD);
-    // await page.locator('form button', {hasText: 'Sign in'}).click();
 });
 
 test('title verification', async ({ page }) => {
