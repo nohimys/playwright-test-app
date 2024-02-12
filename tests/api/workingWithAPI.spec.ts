@@ -2,9 +2,6 @@ import { expect, test } from "@playwright/test";
 // @ts-ignore
 import tags from "./../../test-data/tags.json"
 
-const USERNAME = 'pwtest@test.com';
-const PASSWORD = 'Welcome1';
-
 test.beforeEach(async ({ page }) => {
     //Intercept Routes from Browser to Server
     // await page.route(
@@ -42,18 +39,6 @@ test('title verification', async ({ page }) => {
 });
 
 test('delete article', async ({ page, request }) => {
-    
-    //Get the Auth Token
-    const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-        data: {
-            'user': {
-                'email': USERNAME,
-                'password': PASSWORD
-            }
-        }
-    });
-    const responseBody = await response.json();
-    const token = responseBody.user.token;
 
     const title = "Subterranean";
 
@@ -67,7 +52,6 @@ test('delete article', async ({ page, request }) => {
             }
         },
         headers: {
-            Authorization: `Token ${token}`,
             'Content-Type': 'application/json'
         }
     });
@@ -100,25 +84,9 @@ test('create article', async ({page, request}) => {
     await page.getByText('Global Feed').click();
     await expect(page.locator('app-article-list h1').first()).toContainText(title);
 
-    //Get the Auth Token
-    const response = await request.post('https://conduit-api.bondaracademy.com/api/users/login', {
-        data: {
-            'user': {
-                'email': USERNAME,
-                'password': PASSWORD
-            }
-        }
-    });
-    const responseBody = await response.json();
-    const token = responseBody.user.token;
-
     //Clean up by API (Delete Article)
     const deleteResponse = await request.delete(
-        `https://conduit-api.bondaracademy.com/api/articles/${articleslug}`,{
-            headers: {
-                Authorization: `Token ${token}`
-            }
-        });
+        `https://conduit-api.bondaracademy.com/api/articles/${articleslug}`);
     expect(deleteResponse.status()).toEqual(204);
     
     await page.getByText('Global Feed').click();

@@ -34,4 +34,6 @@ test('authetication', async({page, request}) => {
 
     user.origins[0].localStorage[0].value = token;
     fs.writeFileSync(authFile, JSON.stringify(user));
+
+    process.env['ACCESS_TOKEN'] = token;
 });
