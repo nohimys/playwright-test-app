@@ -5,12 +5,20 @@ test.beforeEach(async ({page}) => {
 });
 
 test.describe('Form Layout Page', () => {
+
+    test.describe.configure({retries: 2});
+
     test.beforeEach(async ({page}) => {
         await page.getByText('Forms').click();
         await page.getByText('Form Layouts').click();
     });
 
-    test('input fields', async ({page}) => {
+    test('input fields', async ({page}, testInfo) => {
+
+        if(testInfo.retry){
+            //Execute Clean up work
+        }
+
         const usingTheGridEmailInput =
             page.locator('nb-card', {hasText: 'Using the Grid'})
                 .getByRole('textbox', {name: 'Email'});
