@@ -145,6 +145,9 @@ test.describe('Tooltip Page', () => {
 });
 
 test.describe('Table Page', () => {
+
+    test.describe.configure({ mode: 'serial' });
+
     test.beforeEach(async ({ page }) => {
         await page.getByText('Tables & Data').click();
         await page.getByText('Smart Table').click();
