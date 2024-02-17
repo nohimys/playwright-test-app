@@ -181,6 +181,10 @@ test.describe('Table Page', () => {
         //Write new age
         await page.locator('input-editor').getByPlaceholder('Age').clear();
         await page.locator('input-editor').getByPlaceholder('Age').fill('36');
+
+        //Take Screenshot
+        await page.screenshot({path: 'screenshots/age-added.png'});
+
         //Confirm the row
         await page.locator('.nb-checkmark').click();
     });
@@ -198,6 +202,14 @@ test.describe('Table Page', () => {
 
             //Activate editing
             await targetRowById.locator('.nb-edit').click();
+
+            //Take Screenshot
+            targetRowById.screenshot({path: 'screenshots/target-row.png'});
+            //Take Screenshot as a bitstream
+            //This can be sent to any system you like now.
+            const screenshot = targetRowById.screenshot();
+
+
             //Write new age
             await page.locator('input-editor').getByPlaceholder('E-mail').clear();
             await page.locator('input-editor').getByPlaceholder('E-mail').fill('test@test.com');
