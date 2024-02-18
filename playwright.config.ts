@@ -57,6 +57,36 @@ export default defineConfig<TestOptions>({
     },
 
     {
+      name: 'articleSetup',
+      testMatch: 'newArticle.setup.ts',
+      use: { 
+        ...devices['Desktop Chrome'], 
+        storageState: '.auth/user.json',
+      },
+      dependencies: ['setup'],
+      teardown: 'articleCleanUp'
+    },
+
+    {
+      name: 'articleCleanUp',
+      testMatch: 'articleCleanUp.setup.ts',
+      use: { 
+        ...devices['Desktop Chrome'], 
+        storageState: '.auth/user.json',
+      }
+    },
+
+    {
+      name: 'likesCounter',
+      testMatch: 'likesCounter.spec.ts',
+      use: { 
+        ...devices['Desktop Chrome'], 
+        storageState: '.auth/user.json',
+      },
+      dependencies: ['articleSetup'],
+    },
+
+    {
       name: 'stg',
       use: { 
         ...devices['Desktop Chrome'], 
