@@ -49,6 +49,9 @@ export default defineConfig<TestOptions>({
     }
   },
 
+  globalSetup: require.resolve('./global-setup.ts'),
+  globalTeardown: require.resolve('./global-teardown.ts'),
+
   /* Configure projects for major browsers */
   projects: [
     {
@@ -84,6 +87,25 @@ export default defineConfig<TestOptions>({
         storageState: '.auth/user.json',
       },
       dependencies: ['articleSetup'],
+    },
+
+    {
+      name: 'likesCounter',
+      testMatch: 'likesCounter.spec.ts',
+      use: { 
+        ...devices['Desktop Chrome'], 
+        storageState: '.auth/user.json',
+      },
+      dependencies: ['articleSetup'],
+    },
+
+    {
+      name: 'likesCounterGlobal',
+      testMatch: 'likesCounterGlobal.spec.ts',
+      use: { 
+        ...devices['Desktop Chrome'], 
+        storageState: '.auth/user.json',
+      }
     },
 
     {
