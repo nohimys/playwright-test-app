@@ -67,7 +67,7 @@ test('delete article', async ({ page, request }) => {
 
 });
 
-test('create article', async ({page, request}) => {
+test('create article @smoke @regression', async ({page, request}) => {
     const title = 'My Title'
 
     await page.getByText('New Article').click();

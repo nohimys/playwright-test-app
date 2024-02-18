@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npx playwright test",
     "specific-file": "npx playwright test ./tests/api/workingWithAPI.spec.ts --project=chromium",
+    "smoke": "npx playwright test --project=chromium --grep smoke",
     "prod": "npx playwright test config=playwright-prod.config.ts"
   },
   "repository": {
