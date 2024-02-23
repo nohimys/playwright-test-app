@@ -139,6 +139,14 @@ export default defineConfig<TestOptions>({
       dependencies: ['setup']
     },
 
+    {
+      name: 'mobile',
+      testMatch: 'testMobile.spec.ts',
+      use: { 
+        ...devices['iPhone 13']
+      }
+    },
+
     /* Test against mobile viewports. */
     // {
     //   name: 'Mobile Chrome',
