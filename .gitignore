@@ -10,3 +10,5 @@ node_modules/
 /playwright/.cache/
 /.DS_Store
 /.auth
+/allure-results
+/allure-report
