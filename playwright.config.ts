@@ -13,9 +13,10 @@ require('dotenv').config();
 export default defineConfig<TestOptions>({
   // timeout: 10000,
   // globalTimeout: 60000,
-  // expect: {
-  //   timeout: 20000
-  // },
+  expect: {
+    timeout: 20000,
+    toMatchSnapshot: {maxDiffPixels: 50}
+  },
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -32,7 +33,7 @@ export default defineConfig<TestOptions>({
     ['json', { outputFile: 'test-results/json-file.json' }],
     ['junit', { outputFile: 'test-results/junit-file.xml' }],
     ["line"],
-    ["allure-playwright"]
+    // ["allure-playwright"]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {

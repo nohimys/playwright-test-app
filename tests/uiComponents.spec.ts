@@ -59,6 +59,9 @@ test.describe.parallel('Form Layout Page', () => {
         //Locator Assertion
         await expect(radioButton1).toBeChecked({ checked: false });
 
+        //Visual Testing: Take a Screenshot & compare with the following executions
+        await expect(usingTheGrid).toHaveScreenshot({ maxDiffPixels: 100 });
+
     });
 });
 
