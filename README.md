@@ -18,6 +18,7 @@
 - API Automation
 - Fixtures
 - Retries & Timeouts
+- Authentication & Session Handling
 - Screenshots & Videos
 - Reporting including Allure Reports integration
 - Docker deployment
