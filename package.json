@@ -8,7 +8,8 @@
     "specific-file": "npx playwright test ./tests/api/workingWithAPI.spec.ts --project=chromium",
     "smoke": "npx playwright test --project=chromium --grep smoke",
     "prod": "npx playwright test config=playwright-prod.config.ts",
-    "allure-generate-html": "allure generate allure-results -o allure-report --clean"
+    "allure-generate-html": "allure generate allure-results -o allure-report --clean",
+    "docker-compose": "docker-compose up --build"
   },
   "repository": {
     "type": "git",
